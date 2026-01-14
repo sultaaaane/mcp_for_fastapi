@@ -9,13 +9,26 @@ async def main():
         args=["server.py"],
     )
 
-    async with stdio_client(server) as (reader, writer):
-        async with ClientSession(reader, writer) as session:
-            await session.initialize()
+    try:
+        async with stdio_client(server) as (reader, writer):
+            async with ClientSession(reader, writer) as session:
+                await session.initialize()
+                result = await session.call_tool(
+                    "discover_endpoints", {"base_url": "http://localhost:8000"}
+                )
+                print("Discovered endpoints:", result)
 
-            result = await session.call_tool("testing", {"test": "waaaaaaaaaa"})
+                result = await session.call_tool(
+                    "test_all_endpoints", {"base_url": "http://localhost:8000"}
+                )
+                print("Test results:", result)
 
-            print(result)
+    except Exception as e:
+        print(f"Error: {type(e).__name__}: {e}")
+        import traceback
+
+        traceback.print_exc()
 
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())

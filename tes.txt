@@ -1,0 +1,15 @@
+Discovered endpoints:
+Found 5 endpoints:
+	1. GET    /          - Health
+	2. POST   /tasks     - Add Task
+	3. DELETE /tasks     - Delete Task
+	4. PATCH  /tasks     - Update Task
+	5. GET    /tasks     - Get Tasks
+
+Test results:
+Tested 5 endpoints:
+	✓ GET    /          - Status 200 - {"health":"healthy"}
+	✗ POST   /tasks     - Status 422 - Missing fields: id, title, task
+	✗ DELETE /tasks     - Status 422 - Missing field: id (query)
+	✗ PATCH  /tasks     - Status 422 - Missing fields: id, title, task
+	✓ GET    /tasks     - Status 200 - 5 tasks returned
