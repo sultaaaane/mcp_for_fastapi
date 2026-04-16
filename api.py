@@ -37,7 +37,9 @@ async def discover_endpoints(req: DiscoverRequest):
             resp.raise_for_status()
             openapi_spec = resp.json()
         except Exception as e:
-            raise HTTPException(status_code=502, detail=f"Error fetching openapi.json: {e}")
+            raise HTTPException(
+                status_code=502, detail=f"Error fetching openapi.json: {e}"
+            )
 
     endpoints: List[Dict[str, Any]] = []
     for path, methods in openapi_spec.get("paths", {}).items():
@@ -88,7 +90,9 @@ async def test_all_endpoints(req: TestAllRequest):
             resp.raise_for_status()
             openapi_spec = resp.json()
         except Exception as e:
-            raise HTTPException(status_code=502, detail=f"Error fetching openapi.json: {e}")
+            raise HTTPException(
+                status_code=502, detail=f"Error fetching openapi.json: {e}"
+            )
 
         results: List[Dict[str, Any]] = []
         for path, methods in openapi_spec.get("paths", {}).items():
@@ -112,7 +116,9 @@ async def test_all_endpoints(req: TestAllRequest):
                             "endpoint": f"{method_upper} {path}",
                             "status": test_resp.status_code,
                             "success": test_resp.is_success,
-                            "body_preview": test_resp.text[:200] if test_resp.text else None,
+                            "body_preview": (
+                                test_resp.text[:200] if test_resp.text else None
+                            ),
                         }
                     )
                 except Exception as endpoint_error:

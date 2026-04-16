@@ -1,2 +1,29 @@
 Umm an mcp server for making fastapi endpoints usable by models
 (experimenting)
+
+## Run
+
+- API server: `uvicorn api:app --host 0.0.0.0 --port 8000`
+- MCP stdio server: `python server.py`
+- Demo client: `python client.py`
+
+## Tests
+
+Run all tests:
+
+`python -m unittest discover -s tests -v`
+
+## Demo target API for MCP
+
+Run a small FastAPI app from `tests/` that MCP can discover:
+
+`uvicorn demo_target_api:app --app-dir tests --host 127.0.0.1 --port 8001`
+
+Use this base URL in MCP tools:
+
+`http://127.0.0.1:8001`
+
+Example direct checks:
+
+- `curl -s http://127.0.0.1:8001/health`
+- `curl -s http://127.0.0.1:8001/openapi.json`
