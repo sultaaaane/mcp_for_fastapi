@@ -6,6 +6,7 @@ from mcp.client.session import ClientSession
 
 async def main():
     base_url = "http://127.0.0.1:8001"
+    headers = {"Authorization": "Bearer dev-token"}
     server = StdioServerParameters(
         command=sys.executable,
         args=["server.py"],
@@ -33,12 +34,13 @@ async def main():
                         "path": "/tasks",
                         "method": "POST",
                         "body": {"id": 10, "title": "AI", "task": "Created via MCP"},
+                        "headers": headers,
                     },
                 )
                 print("POST /tasks test:", result)
 
                 result = await session.call_tool(
-                    "test_all_endpoints", {"base_url": base_url}
+                    "test_all_endpoints", {"base_url": base_url, "headers": headers}
                 )
                 print("Test results:", result)
 

@@ -237,7 +237,11 @@ async def list_tools() -> list[Tool]:
                     "base_url": {
                         "type": "string",
                         "description": "The base URL of your FastAPI app",
-                    }
+                    },
+                    "headers": {
+                        "type": "object",
+                        "description": "Custom headers to send with every endpoint request",
+                    },
                 },
                 "required": ["base_url"],
             },
@@ -356,6 +360,7 @@ async def call_tool(name: str, args: dict) -> list[TextContent]:
 
     if name == "test_all_endpoints":
         base_url = args["base_url"].rstrip("/")
+        headers = args.get("headers", {})
 
         async with httpx.AsyncClient() as client:
             try:
@@ -391,6 +396,7 @@ async def call_tool(name: str, args: dict) -> list[TextContent]:
                                 url=full_url,
                                 params=query_params or None,
                                 json=request_body if request_body is not None else None,
+                                headers=headers,
                             )
                             results.append(
                                 {
